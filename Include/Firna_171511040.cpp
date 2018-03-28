@@ -1,7 +1,8 @@
 #include "Firna_171511040.h"
 Button Play,Score,About;
 
-void Main_Menu(int *Action, boolean *Cek_Sound){		// modul untuk menampilkan menu utama
+// modul untuk menampilkan menu utama
+void Main_Menu(int *Action, boolean *Cek_Sound){
 	
 	// Button Play
 	Play.X = 325; 							//Koordinat x
@@ -9,7 +10,7 @@ void Main_Menu(int *Action, boolean *Cek_Sound){		// modul untuk menampilkan men
 	Play.Height = 50; 						//Tinggi Button
 	Play.Width = 150;						//Lebar Button
 	Play.Image = "Assets/play.BMP";			//gambar tombol play tidak tertekan
-	Play.PRESS_Image = "Assets/h_play.BMP";	//gambar tombol play tertekan
+	Play.Hover_Image = "Assets/h_play.BMP";	//gambar tombol play tertekan
 		
 	// Button Scores	
 	Score.X = 325; 								//Koordinat x
@@ -17,7 +18,7 @@ void Main_Menu(int *Action, boolean *Cek_Sound){		// modul untuk menampilkan men
 	Score.Height = 50; 							//Tinggi Button
 	Score.Width = 150;							//Lebar Button
 	Score.Image = "Assets/Score.BMP";			//gambar tombol play tidak tertekan
-	Score.PRESS_Image = "Assets/h_Score.BMP";	//gambar tombol play tertekan
+	Score.Hover_Image = "Assets/h_Score.BMP";	//gambar tombol play tertekan
 	
 	// Button About Us
 	About.X = 325; 								//Koordinat x
@@ -25,7 +26,7 @@ void Main_Menu(int *Action, boolean *Cek_Sound){		// modul untuk menampilkan men
 	About.Height = 50; 							//Tinggi Button
 	About.Width = 150;							//Lebar Button
 	About.Image = "Assets/About.BMP";			//gambar tombol play tidak tertekan
-	About.PRESS_Image = "Assets/h_About.BMP";	//gambar tombol play tertekan
+	About.Hover_Image = "Assets/h_About.BMP";	//gambar tombol play tertekan
 	
 	// Button Exit
 	Exit.X = 325; 								//Koordinat x
@@ -33,7 +34,7 @@ void Main_Menu(int *Action, boolean *Cek_Sound){		// modul untuk menampilkan men
 	Exit.Height = 50; 							//Tinggi Button
 	Exit.Width = 150;							//Lebar Button
 	Exit.Image = "Assets/Exit.BMP";				//gambar tombol play tidak tertekan
-	Exit.PRESS_Image = "Assets/h_Exit.BMP";		//gambar tombol play tertekan
+	Exit.Hover_Image = "Assets/h_Exit.BMP";		//gambar tombol play tertekan
 	
 	//Button Sound
 	Sound.X=740;								//Koordinat x
@@ -41,21 +42,22 @@ void Main_Menu(int *Action, boolean *Cek_Sound){		// modul untuk menampilkan men
 	Sound.Width=50;								//Tinggi Button
 	Sound.Height=50;							//Lebar Button
 	Sound.Image="Assets/sound.bmp";				//gambar tombol play tidak tertekan
-	Sound.PRESS_Image="Assets/h_sound.bmp";		//gambar tombol play tertekan
+	Sound.Hover_Image="Assets/h_sound.bmp";		//gambar tombol play tertekan
 	
 	readimagefile("Assets/bg_utama.BMP", 0, 0, 800, 600);		//menampilkan background
-	Make_Button_Img(Play,NOT_PRESS);							//menampilkan tampilan awal tombol dengan kondisi tidak tertekan
-	Make_Button_Img(Score,NOT_PRESS);							//menampilkan tampilan awal tombol dengan kondisi tidak tertekan
-	Make_Button_Img(About,NOT_PRESS);							//menampilkan tampilan awal tombol dengan kondisi tidak tertekan
-	Make_Button_Img(Exit,NOT_PRESS);							//menampilkan tampilan awal tombol dengan kondisi tidak tertekan
-	Make_Button_Img(Sound,NOT_PRESS);							//menampilkan tampilan awal tombol dengan kondisi tidak tertekan
+	Make_Button_Img(Play,NOT_HOVER);							//menampilkan tampilan awal tombol dengan kondisi tidak tertekan
+	Make_Button_Img(Score,NOT_HOVER);							//menampilkan tampilan awal tombol dengan kondisi tidak tertekan
+	Make_Button_Img(About,NOT_HOVER);							//menampilkan tampilan awal tombol dengan kondisi tidak tertekan
+	Make_Button_Img(Exit,NOT_HOVER);							//menampilkan tampilan awal tombol dengan kondisi tidak tertekan
+	Make_Button_Img(Sound,NOT_HOVER);							//menampilkan tampilan awal tombol dengan kondisi tidak tertekan
 	
 	//pengecekan tombol sound
 	Sound_Cek(Cek_Sound);							//modul  untuk cek tombol sedang tertekan atau tidak
 	Controller_Menu_Utama(Action, Cek_Sound);		//modul untuk mengatur alur tombol ketika di klik
 }
 
-void Controller_Menu_Utama(int *Action, boolean *Cek_Sound){	//modul untuk mengatur alur tombol ketika di klik
+//modul untuk mengatur alur tombol ketika di klik
+void Controller_Menu_Utama(int *Action, boolean *Cek_Sound){
 	//deklarasi variabel lokal
 	int Valid=0;		//kondisi yang sesuai koordinatnya, agar keluar dari looping apabila mencapai suatu kondisi tertentu
 	int X=-1,Y=-1;		//assign awal untuk koordinat x dan y
@@ -64,30 +66,31 @@ void Controller_Menu_Utama(int *Action, boolean *Cek_Sound){	//modul untuk menga
 	while(Valid==0){
 		getmouseclick(WM_LBUTTONDOWN,X,Y);
 		delay(200);
-		if(X>=Play.X && X<=Play.X+Play.Width && Y>=Play.Y && Y<=Play.Y+Play.Height){	// cek sedang menekan tombol play atau tidak
+		// kondisi untuk cek menekan tombol apa berdasarkan koordinat
+		if(X>=Play.X && X<=Play.X+Play.Width && Y>=Play.Y && Y<=Play.Y+Play.Height){	
 			Valid = 1;
 			*Action = B_LEVEL;
-			Make_Button_Img(Play,PRESS);
-		} else if ((X>=Score.X && X<=Score.X+Score.Width && Y>=Score.Y && Y<=Score.Y+Score.Height)){	// cek sedang menekan tombol score atau tidak
+			Make_Button_Img(Play,HOVER);
+		} else if ((X>=Score.X && X<=Score.X+Score.Width && Y>=Score.Y && Y<=Score.Y+Score.Height)){
 			Valid = 1;
 			*Action = B_SCORE;
-			Make_Button_Img(Score,PRESS);
-		} else if ((X>=About.X && X<=About.X+About.Width && Y>=About.Y && Y<=About.Y+About.Height)){	// cek sedang menekan tombol about atau tidak
+			Make_Button_Img(Score,HOVER);
+		} else if ((X>=About.X && X<=About.X+About.Width && Y>=About.Y && Y<=About.Y+About.Height)){
 			Valid = 1;
 			*Action = B_ABOUT;
-			Make_Button_Img(About,PRESS);
-		} else if ((X>=Exit.X && X<=Exit.X+Exit.Width && Y>=Exit.Y && Y<=Exit.Y+Exit.Height)){		// cek sedang menekan tombol exit atau tidak
+			Make_Button_Img(About,HOVER);
+		} else if ((X>=Exit.X && X<=Exit.X+Exit.Width && Y>=Exit.Y && Y<=Exit.Y+Exit.Height)){
 			Valid = 1;
 			*Action = B_EXIT;
-			Make_Button_Img(Exit,PRESS);
+			Make_Button_Img(Exit,HOVER);
 		}
-		else if(X>=Sound.X && X<=Sound.X+Sound.Width && Y>=Sound.Y && Y<=Sound.Y+Sound.Height){		// cek sedang menekan tombol sound atau tidak
-		
-			if(*Cek_Sound){			//kondisi tombol sedang tidak tertekan
+		else if(X>=Sound.X && X<=Sound.X+Sound.Width && Y>=Sound.Y && Y<=Sound.Y+Sound.Height){
+			//kondisi cek tombol akan ditekan atau tidak
+			if(*Cek_Sound){	
 				PlaySound(TEXT(" "), NULL, SND_ASYNC);
 				*Cek_Sound = false;
 			}
-			else {												//kondisi tombol sedang tertekan
+			else {
 				PlaySound(TEXT("Assets\\intro.wav"), NULL, SND_LOOP | SND_ASYNC);
 				*Cek_Sound = true;	
 			}
@@ -96,8 +99,9 @@ void Controller_Menu_Utama(int *Action, boolean *Cek_Sound){	//modul untuk menga
 	}
 	delay(200);
 }
-	
-void Random (int Puzzle_Size){		//modul untuk me random puzzle
+
+//modul untuk me random puzzle
+void Random (int Puzzle_Size){
 	//deklarasi variabel lokal
 	int I,J;
 	int T;
@@ -119,6 +123,7 @@ void Random (int Puzzle_Size){		//modul untuk me random puzzle
     }
 }
 
+//modul untuk cek apakah dapat dipastikan menang atau tidak
 void Victory(int *Valid, int *Win,int Puzzle_Size){
 	//deklarasi variabel lokal
 	int I, J, K;
@@ -132,13 +137,14 @@ void Victory(int *Valid, int *Win,int Puzzle_Size){
 			}
 		}
 	}
-	if (K == Puzzle_Size*Puzzle_Size){		//kondisi apakah total yang sama telah sesuai dengan jumlah puzzle size nya
+	if (K == Puzzle_Size*Puzzle_Size){	//kondisi apakah total yang sama telah sesuai dengan jumlah puzzle size nya
 		*Valid = 1;
 		*Win = 1;
 	}
 }
 
-void Cheats(int Puzzle_Size){		//modul untuk mempermudah jalannya tracing
+//modul untuk mempermudah perpindahan puzzle
+void Cheats(int Puzzle_Size){
 	//deklarasi variabel lokal
 	int I,J;
 	
@@ -155,11 +161,12 @@ void Cheats(int Puzzle_Size){		//modul untuk mempermudah jalannya tracing
 	Y_Puzz=Puzzle_Size-1;
 }
 
-void Sound_Cek(boolean *Cek_Sound){		//modul  untuk cek tombol sedang tertekan atau tidak
+//modul  untuk cek tombol sedang dalam kondisi tertekan atau tidak
+void Sound_Cek(boolean *Cek_Sound){
 	//program
 	if (*Cek_Sound == false){
-		Make_Button_Img(Sound,PRESS);
+		Make_Button_Img(Sound,HOVER);
 	} else {
-		Make_Button_Img(Sound,NOT_PRESS);
+		Make_Button_Img(Sound,NOT_HOVER);
 	}
 }
